@@ -76,8 +76,9 @@ if (isset($_POST['login'])){
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $password = hash('whirlpool', str_rot13($password));
 
-        $query = $conn->prepare('SELECT * FROM `db_cking.users` WHERE `username` = :usrname ');
+        $query = $conn->prepare('SELECT * FROM `db_cking.users` WHERE `username` = usrname ');
         echo "potato";
+        echo $query;
         //$query->execute(['usrname' => $username]);
         echo "potato2";
         //$result = $query->fetch();

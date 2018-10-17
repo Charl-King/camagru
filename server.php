@@ -9,18 +9,13 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // sql to create table
-    $sql = "CREATE TABLE users (
-    id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255),
-    reg_date TIMESTAMP
-    )";
+    if (isset($_POST['register'])){
+        $username = mysql_real_escape_string($_POST['username']);
+        $email = mysql_real_escape_string($_POST['email']);
+        $password_1 = mysql_real_escape_string($_POST['password_1']);
+        $password_2 = mysql_real_escape_string($_POST['password_2']);
 
-    // use exec() because no results are returned
-    $conn->exec($sql);
-    echo "Table MyGuests created successfully";
+    }
     }
 catch(PDOException $e)
     {

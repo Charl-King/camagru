@@ -34,19 +34,10 @@ try {
         if ($password_1 != $password_2){array_push($errors, "Passwords do not match");}
 
         //check if user doesn't already exist or email
-
         $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr OR email = :eml");
         $stmt->execute(["usr"=>$username, "eml"=>$email]);
         $results = $stmt->fetchAll();
-
         if (sizeof($results) >= 1){array_push($errors, "Username/Email already in use");}
-        // $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
-        // $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
-        // $stmt->setFetchMode(PDO::FETCH_ASSOC); 
-        // $results = $stmt->FetchAll();
-        // if (sizeof($results) != 0){array_push($errors, "Username/email already in use");}
-
-        ///////////////////////////////
 
         //if no errors save user
         if(count($errors) == 0){

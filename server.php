@@ -35,6 +35,11 @@ try {
 
         //check if user doesn't already exist or email
 
+        $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr OR email = :eml");
+        $stmt->execute(["usr"=>$username, "eml"=>$email]);
+        $results = $stmt->fetchAll();
+
+        if (sizeof($results) >= 1){array_push($errors, "Username/Email already in use");}
         // $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
         // $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
         // $stmt->setFetchMode(PDO::FETCH_ASSOC); 
@@ -90,7 +95,7 @@ if (isset($_POST['login'])){
         $stmt->execute(["usr"=>$username, "psw"=>$password]);
         $results = $stmt->fetchAll();
 
-        if (sizeof($results) >= 1){
+        if (sizeof($results) == 1){
              $_SESSION['username'] = $username;
              $_SESSION['success'] = "You are logged in";
             header('location: index.php');

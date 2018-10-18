@@ -75,10 +75,9 @@ if (isset($_POST['login'])){
     }
 
     if(count($errors) == 0){
-        $password = hash('whirlpool', str_rot13($password));
-
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+<<<<<<< HEAD
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
         $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
@@ -93,6 +92,28 @@ if (isset($_POST['login'])){
             array_push($errors, "The username/password provided is invalid");
             header('location: login.php');
         }
+=======
+        $password = hash('whirlpool', str_rot13($password));
+
+        $query = $conn->prepare('SELECT * FROM `db_cking.users` WHERE `username` = usrname ');
+        echo "potato";
+        echo $query;
+        //$query->execute(['usrname' => $username]);
+        echo "potato2";
+        //$result = $query->fetch();
+        echo "potato3";
+        echo $result;
+        echo "potato4";
+        // if (mysqli_num_rows($result) == 1){
+        //     $_SESSION['username'] = $username;
+        //     $_SESSION['success'] = "You are logged in";
+        //     header('location: index.php');
+        // }
+        // else{
+        //     array_push($errors, "The username/password provided is invalid");
+        //     header('location: login.php');
+        // }
+>>>>>>> parent of 11eff62... loggin in sorted
     }
 }
 

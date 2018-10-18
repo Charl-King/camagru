@@ -1,9 +1,8 @@
 <?php include('server.php'); ?>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+        <title>Register</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 <body>

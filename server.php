@@ -4,11 +4,17 @@ session_start();
 $servername = "localhost";
 $ad_username = "root";
 $ad_password = "test";
-$dbname = "db_cking";
+$tablename = "db_cking.users";
 $tablename = "users";
 $username = "";
 $email = "";
 $errors = array();
+
+$opt = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
@@ -29,8 +35,8 @@ try {
 
         //check if user doesn't already exist or email
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
-        $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
+        // $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
+        // $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
         // $stmt->setFetchMode(PDO::FETCH_ASSOC); 
         // $results = $stmt->FetchAll();
         // if (sizeof($results) != 0){array_push($errors, "Username/email already in use");}
@@ -75,45 +81,24 @@ if (isset($_POST['login'])){
     }
 
     if(count($errors) == 0){
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-<<<<<<< HEAD
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
-        $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
-
-        $results = $stmt->FetchAll();
-       if (sizeof($results) == 1){
-            $_SESSION['username'] = $username;
-            $_SESSION['success'] = "You are logged in";
-            header('location: index.php');
-        }
-        else{
-            array_push($errors, "The username/password provided is invalid");
-            header('location: login.php');
-        }
-=======
+        
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
         $password = hash('whirlpool', str_rot13($password));
 
-        $query = $conn->prepare('SELECT * FROM `db_cking.users` WHERE `username` = usrname ');
-        echo "potato";
-        echo $query;
-        //$query->execute(['usrname' => $username]);
-        echo "potato2";
-        //$result = $query->fetch();
-        echo "potato3";
-        echo $result;
-        echo "potato4";
-        // if (mysqli_num_rows($result) == 1){
-        //     $_SESSION['username'] = $username;
-        //     $_SESSION['success'] = "You are logged in";
-        //     header('location: index.php');
-        // }
-        // else{
-        //     array_push($errors, "The username/password provided is invalid");
-        //     header('location: login.php');
-        // }
->>>>>>> parent of 11eff62... loggin in sorted
+
+        $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr AND password = :psw");
+        $stmt->execute(["usr"=>$username, "psw"=>$password]);
+        $results = $stmt->fetchAll();
+
+        if (sizeof($results) >= 1){
+             $_SESSION['username'] = $username;
+             $_SESSION['success'] = "You are logged in";
+            header('location: index.php');
+             }
+         else{
+             array_push($errors, "The username/password provided is invalid");
+             header('location: login.php');
+         }
     }
 }
 

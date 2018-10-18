@@ -20,19 +20,22 @@ try {
         $password_1 = $_POST['password_1'];
         $password_2 = $_POST['password_2'];
 
-        //errorcheck
-        if (empty($username)){
-            array_push($errors, "Username is required");
-        }
-        if (empty($email)){
-            array_push($errors, "Email is required");
-        }
-        if (empty($username)){
-            array_push($errors, "Username is required");
-        }
-        if ($password_1 != $password_2){
-            array_push($errors, "Passwords do not match");
-        }
+        //errorcheck form
+        if (empty($username)){array_push($errors, "Username is required");}
+        if (empty($email)){array_push($errors, "Email is required");}
+        if (empty($username)){array_push($errors, "Username is required");}
+        if (empty($password_1)){array_push($errors, "Password is required");}
+        if ($password_1 != $password_2){array_push($errors, "Passwords do not match");}
+
+        //check if user doesn't already exist or email
+
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
+        $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
+        // $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+        // $results = $stmt->FetchAll();
+        // if (sizeof($results) != 0){array_push($errors, "Username/email already in use");}
+
+        ///////////////////////////////
 
         //if no errors save user
         if(count($errors) == 0){
@@ -76,16 +79,16 @@ if (isset($_POST['login'])){
 
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT username FROM users"); 
-        $stmt->execute();
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :usrnme AND `password` = :pswrd"); 
+        $stmt->execute([`usrnme`=>$username, `pswrd`=>$password]);
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
 
         $results = $stmt->FetchAll();
        if (sizeof($results) == 1){
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are logged in";
-                header('location: index.php');
-            }
+            header('location: index.php');
+        }
         else{
             array_push($errors, "The username/password provided is invalid");
             header('location: login.php');

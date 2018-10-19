@@ -42,19 +42,20 @@ try {
         //if no errors save user
         if(count($errors) == 0){
             $password = hash('whirlpool', str_rot13($password_1));
-            console.log($password) ;
-            $sql = "INSERT INTO db_cking.users (username, email, `password`) 
-                VALUES ('$username','$email', '$password')";
+            $token = hash('whirlpool',$username);
+            $ver_link = "http://localhost:8080/camagru/verify.php?token=".$token;
+            $sql = "INSERT INTO db_cking.users (username, email, `password`, token) 
+                VALUES ('$username','$email', '$password', '$token')";
             $conn->exec($sql);
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are logged in";
         //email
-            $token = "http://localhost:8080/camagru/verify.php?".hash('whirlpool',$username);
-            $msg = "First line of text\nSecond line of text\n$token";
+            
+            $msg = "First line of text\nSecond line of text\n$ver_link";
             $msg = wordwrap($msg,70);
             mail("$email","Verification email",$msg);
 
-            header('location: index.php');
+            header('location: login.php');
         }
 
     }
@@ -104,4 +105,14 @@ if (isset($_POST['login'])){
     }
 }
 
+if (isset($_GET['token'])){
+    
+    $stmt = $conn->prepare("UPDATE $tablename SET `verified` = 1 WHERE token = :tkn");
+    $stmt->execute(["tkn"=>$_GET['token']]);
+    $results = $stmt->fetchAll();
+
+    if (sizeof($results) == 1){
+        echo "yes";
+    }
+}
 ?>

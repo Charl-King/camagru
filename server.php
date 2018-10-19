@@ -48,6 +48,12 @@ try {
             $conn->exec($sql);
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are logged in";
+        //email
+            $token = "http://localhost:8080/camagru/verify.php?".hash('whirlpool',$username);
+            $msg = "First line of text\nSecond line of text\n$token";
+            $msg = wordwrap($msg,70);
+            mail("$email","Verification email",$msg);
+
             header('location: index.php');
         }
 
@@ -87,13 +93,13 @@ if (isset($_POST['login'])){
         $results = $stmt->fetchAll();
 
         if (sizeof($results) == 1){
-             $_SESSION['username'] = $username;
-             $_SESSION['success'] = "You are logged in";
+            $_SESSION['username'] = $username;
+            $_SESSION['success'] = "You are logged in";
             header('location: index.php');
-             }
+            }
          else{
-             array_push($errors, "The username/password provided is invalid");
-             header('location: login.php');
+            array_push($errors, "The username/password provided is invalid");
+            header('location: login.php');
          }
     }
 }

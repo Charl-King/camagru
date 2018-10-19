@@ -1,6 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
+    $dbname = "db_cking";
 
     function prompt($prompt_msg){
         echo("<script type='text/javascript'> var answer = prompt('".$prompt_msg."'); </script>");
@@ -19,7 +20,7 @@
     } 
     
     // Create database
-    $sql = "CREATE DATABASE db_cking";
+    $sql = "CREATE DATABASE $dbname";
     if ($conn->query($sql) === TRUE) {
         echo "Database created successfully";
     } else {
@@ -27,7 +28,7 @@
     }
 
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, "test");
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
@@ -44,7 +45,7 @@
     
         // use exec() because no results are returned
         $conn->exec($sql);
-        echo "Table MyGuests created successfully";
+        echo "Table users created successfully";
         }
     catch(PDOException $e){
         echo $sql . "<br>" . $e->getMessage();

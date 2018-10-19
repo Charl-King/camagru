@@ -63,13 +63,14 @@ try {
 catch(PDOException $e){
     echo $sql . "<br>" . $e->getMessage();
 }
-
+//logout
 if (isset($_GET['logout'])){
     session_destroy();
     unset($_SESSION['username']);
     header('location:index.php');
 }
 
+//login
 if (isset($_POST['login'])){
 
     $username = ($_POST['username']);
@@ -94,10 +95,18 @@ if (isset($_POST['login'])){
         $results = $stmt->fetchAll();
 
         if (sizeof($results) == 1){
-            $_SESSION['username'] = $username;
-            $_SESSION['success'] = "You are logged in";
-            header('location: index.php');
+            //check if verified
+            $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr AND verified = 1");
+            $stmt->execute(["usr"=>$username]);
+            $results = $stmt->fetchAll();
+            if(sizeof($results) == 1){
+                $_SESSION['username'] = $username;
+                $_SESSION['success'] = "You are logged in";
+                header('location: index.php');}
+            else{
+               echo "Please verify email address via link sent to your email before logging in";
             }
+        }
          else{
             array_push($errors, "The username/password provided is invalid");
             header('location: login.php');
@@ -105,14 +114,13 @@ if (isset($_POST['login'])){
     }
 }
 
+//verification
 if (isset($_GET['token'])){
     
-    $stmt = $conn->prepare("UPDATE $tablename SET `verified` = 1 WHERE token = :tkn");
-    $stmt->execute(["tkn"=>$_GET['token']]);
-    $results = $stmt->fetchAll();
-
-    if (sizeof($results) == 1){
-        echo "yes";
-    }
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
+    $token = $_GET['token'];
+    $stmt = $conn->prepare("UPDATE db_cking.users SET verified = 1 WHERE token = :tkn");
+    $stmt->execute(["tkn"=>$token]);
 }
+
 ?>

@@ -1,1 +1,4 @@
-<?php include('server.php'); ?>
+<?php 
+include('server.php'); 
+header('location: login.php');
+?>

@@ -1,8 +1,11 @@
-<?php include('server.php'); ?>
+<?php 
+include('server.php');
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Register</title>
+        <title>Log in</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 <body>
@@ -11,6 +14,17 @@
     </div>
     <form method="post" action="login.php">
     <?php include ('errors.php');?>
+  	<?php if (isset($_SESSION['msg'])) : ?>
+      <div class="error success" >
+      	<h3>
+          <?php 
+          	echo $_SESSION['msg']; 
+          	unset($_SESSION['msg']);
+          ?>
+      	</h3>
+      </div>
+  	<?php endif ?>
+</div>
         <div class="input-group">
             <label>Username</label>
             <input type="text" name="username">

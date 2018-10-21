@@ -50,5 +50,5 @@
     catch(PDOException $e){
         echo $sql . "<br>" . $e->getMessage();
     }
-    $conn->close();
+//    $conn->close();
 ?>

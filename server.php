@@ -5,7 +5,7 @@ $servername = "localhost";
 $ad_username = "root";
 $ad_password = "test";
 $tablename = "db_cking.users";
-$tablename = "users";
+$dbname = "db_cking";
 $username = "";
 $email = "";
 $errors = array();
@@ -104,12 +104,11 @@ if (isset($_POST['login'])){
                 $_SESSION['success'] = "You are logged in";
                 header('location: index.php');}
             else{
-               echo "Please verify email address via link sent to your email before logging in";
+               array_push($errors, "Please verify email address via link sent to your email before logging in");
             }
         }
          else{
             array_push($errors, "The username/password provided is invalid");
-            header('location: login.php');
          }
     }
 }

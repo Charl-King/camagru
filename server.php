@@ -17,8 +17,7 @@ $opt = [
 ];
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
 
     if (isset($_POST['register'])){
         $username = $_POST['username'];
@@ -42,16 +41,17 @@ try {
         //if no errors save user
         if(count($errors) == 0){
             $password = hash('whirlpool', str_rot13($password_1));
-            $token = hash('whirlpool',$username);
-            $ver_link = "http://localhost:8080/camagru/verify.php?token=".$token;
+            $token = hash('whirlpool',$username);  //set verification token
+            $ver_link = "http://localhost:8080/camagru/verify.php?token=".$token; //contruct verification link
             $sql = "INSERT INTO db_cking.users (username, email, `password`, token) 
                 VALUES ('$username','$email', '$password', '$token')";
             $conn->exec($sql);
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are logged in";
-        //email
+        
+        //send verification email
             
-            $msg = "First line of text\nSecond line of text\n$ver_link";
+            $msg = "Please follow the link below\nto verify your account\n$ver_link";
             $msg = wordwrap($msg,70);
             mail("$email","Verification email",$msg);
 
@@ -113,7 +113,7 @@ if (isset($_POST['login'])){
     }
 }
 
-//verification
+//verification when link is clicked on
 if (isset($_GET['token'])){
     
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
@@ -122,4 +122,20 @@ if (isset($_GET['token'])){
     $stmt->execute(["tkn"=>$token]);
 }
 
+//Password recovery
+if (isset($_POST['pwrst'])){
+    
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
+    $stmt = $conn->prepare("SELECT token FROM db_cking.users WHERE email = :email");
+    $stmt->execute(["email"=>$_POST['email']]);
+    $results = $stmt->fetchAll();
+    $token = $results[0]['token'];
+    $ver_link = "http://localhost:8080/camagru/password_reset.php?token=".$token; //contruct reset link
+    //send reset email
+            
+    $msg = "Please follow the link below\nto reset your account\n$ver_link";
+    $msg = wordwrap($msg,70);
+    $email = $_POST['email'];
+    mail("$email","Verification email",$msg);
+}
 ?>

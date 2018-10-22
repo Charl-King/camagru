@@ -12,18 +12,19 @@ include('server.php');
     <div class="header">
         <h2>Password recovery</h2>
     </div>
-    <form method="post" action="password_reset.php">
-</div>
+    <form method="post" action="login.php">
+    </div>
         <div class="input-group">
-            <label>Email adress</label>
-            <input type="text" name="email">
+            <label>Password</label>
+            <input type="text" name="password_1">
         </div>
         <div class="input-group">
-            <button type="submit" name="pwrst" class="btn">Send reset</button>
+            <label>Confirm</label>
+            <input type="text" name="password_2">
         </div>
-        <p>
-            Not yet a member? <a href="register.php">Sign up</a>
-        </p>
+        <div class="input-group">
+            <button type="submit" name="changepw" class="btn">Set new password</button>
+        </div>
     </form>
 </body>
 </html>

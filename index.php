@@ -11,8 +11,22 @@
   	header("location: login.php");
   }
 ?>
+
 <!DOCTYPE html>
 <html>
+<style>
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}
+</style>
 <head>
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -41,6 +55,26 @@
     	<p> <a href="index.php?logout='1'" style="color: red;">Logout</a> </p>
     <?php endif ?>
 </div>
-		
+<BR/><BR/>
+<div id="container">
+    <video autoplay="true" id="videoElement">
+	</video>
+	<div class="input-group">
+    <button type="submit" name="pic" class="btn">Take pic</button>
+</div>
+</div>
+
+<script>
+var video = document.querySelector("#videoElement");
+	
+	if (navigator.mediaDevices.getUserMedia) {       
+		navigator.mediaDevices.getUserMedia({video: true})
+	.then(function(stream) {
+		video.srcObject = stream;
+		return vid.play(); // returns a Promise
+	})
+	}
+</script>
+
 </body>
 </html>

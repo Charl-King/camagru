@@ -131,11 +131,28 @@ if (isset($_POST['pwrst'])){
     $results = $stmt->fetchAll();
     $token = $results[0]['token'];
     $ver_link = "http://localhost:8080/camagru/password_reset.php?token=".$token; //contruct reset link
-    //send reset email
-            
-    $msg = "Please follow the link below\nto reset your account\n$ver_link";
+
+    //send reset email          
+    $msg = "Please follow the link below,\nto reset your account:\n$ver_link";
     $msg = wordwrap($msg,70);
     $email = $_POST['email'];
     mail("$email","Verification email",$msg);
 }
+
+//reset password when link is clicked
+if (isset($_POST['changepw'])){
+    $token = $_SESSION['token'];
+    $password_1 = $_POST['password_1'];
+    $password_2 = $_POST['password_2'];
+    if (empty($password_1)){array_push($errors, "Password is required");}
+    if ($password_1 != $password_2){array_push($errors, "Passwords do not match");}
+    if(count($errors) == 0){
+        $password = hash('whirlpool',str_rot13($password_1));
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
+        $stmt = $conn->prepare("UPDATE db_cking.users SET password = :psw WHERE token = :tkn");
+        $stmt->execute(["tkn"=>$token,"psw"=>$password]);
+    }
+    unset($_SESSION['token']);
+}
+$conn->close();
 ?>

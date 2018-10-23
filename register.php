@@ -18,11 +18,11 @@
         </div>
         <div class="input-group">
             <label>Email</label>
-            <input type="text" name="email">
+            <input type="email" name="email">
         </div>
         <div class="input-group">
             <label>Password</label>
-            <input type="password" name="password_1">
+            <input type="password" name="password_1" pattern=".{8,}"   required title="8 characters minimum">
         </div>
         <div class="input-group">
             <label>Confirm Password</label>

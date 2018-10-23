@@ -14,7 +14,6 @@
 
   }
 ?>
-
 <!DOCTYPE html>
 <html>
 <style>
@@ -30,12 +29,12 @@
     background-color: #666;
 }
 </style>
+
 <head>
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
 <div class="header">
 	<h2>Home Page</h2>
 </div>
@@ -63,53 +62,44 @@
     <video autoplay="true" id="videoElement">
 	</video>
 	<div class="input-group">
-    <button onclick="takeSnapshot" class="btn">Take pic</button>
-</div>
-<a id="dl-btn" href="#" download="glorious_selfie.png" class="btn">Save Photo</a>
-</div>
+    <button onclick="takeSnapshot()" class="btn">Take pic</button>
+	<button onclick="savePic()" class="btn">Save</button>
 
 <script>
-var video = document.querySelector("#videoElement");
+var video = document.querySelector("#videoElement"), canvas;
+var img = document.querySelector('img') || document.createElement('img');
 	
 	if (navigator.mediaDevices.getUserMedia) {       
 		navigator.mediaDevices.getUserMedia({video: true})
 	.then(function(stream) {
 		video.srcObject = stream;
-		return vid.play(); // returns a Promise
+		return video.play(); // returns a Promise
 	})
 	}
 
 function takeSnapshot(){
+      var context;
+      var width = video.offsetWidth
+        , height = video.offsetHeight;
 
-		
-		var hidden_canvas = document.querySelector('canvas'),
-		video = document.querySelector('video.camera_stream'),
-		image = document.querySelector('img.photo'),
+      canvas = canvas || document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
 
-		// Get the exact size of the video element.
-		width = video.videoWidth,
-		height = video.videoHeight,
+      context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, width, height);
 
-		// Context object for working with the canvas.
-		context = hidden_canvas.getContext('2d');
+      img.src = canvas.toDataURL('image/png');
+      document.body.appendChild(img);
+}
 
-		// Set the canvas to the same dimensions as the video.
-		hidden_canvas.width = width;
-		hidden_canvas.height = height;
-
-		// Draw a copy of the current frame from the video on the canvas.
-		context.drawImage(video, 0, 0, width, height);
-
-		// Get an image dataURL from the canvas.
-		var imageDataURL = hidden_canvas.toDataURL('image/png');
-
-		// Set the dataURL as source of an image element, showing the captured photo.
-		image.setAttribute('src', imageDataURL);
-
-		// Set the href attribute of the download button.
-		document.querySelector('#dl-btn').href = imageDataURL;
-
+function savePic(){
+	var download = document.getElementById("videoElement");
+    var image = canvas.toDataURL("image/png")
+    .replace("image/png", "image/octet-stream");
+    download.setAttribute("href", image)
 }
 </script>
+
 </body>
 </html>

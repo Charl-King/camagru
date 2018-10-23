@@ -54,7 +54,6 @@ try {
             $msg = "Please follow the link below\nto verify your account\n$ver_link";
             $msg = wordwrap($msg,70);
             mail("$email","Verification email",$msg);
-
             header('location: login.php');
         }
 

@@ -153,4 +153,8 @@ if (isset($_POST['changepw'])){
     }
     unset($_SESSION['token']);
 }
+//receiving picture
+if(isset($_POST['test'])){
+    echo $_POST['test'];
+}
 ?>

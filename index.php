@@ -65,6 +65,7 @@
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
 	<button onclick="savePic()" class="btn">Save</button>
 
+
 <script>
 var video = document.querySelector("#videoElement"), canvas;
 var img = document.querySelector('img') || document.createElement('img');
@@ -90,14 +91,19 @@ function takeSnapshot(){
       context.drawImage(video, 0, 0, width, height);
 
       img.src = canvas.toDataURL('image/png');
+      
       document.body.appendChild(img);
-}
+      console.log (encodeURIComponent(JSON.stringify(img.src)));
+      }
 
 function savePic(){
-	var download = document.getElementById("videoElement");
-    var image = canvas.toDataURL("image/png")
-    .replace("image/png", "image/octet-stream");
-    download.setAttribute("href", image)
+	// var download = document.getElementById("videoElement");
+    // var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    // download.setAttribute("href", image);
+    
+
+    }
+});
 }
 </script>
 

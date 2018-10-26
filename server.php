@@ -153,8 +153,15 @@ if (isset($_POST['changepw'])){
     }
     unset($_SESSION['token']);
 }
+
 //receiving picture
 if(isset($_POST['submit_pic'])){
-    echo $_POST['pic'];
+    $pic = $_POST['pic'];
+    $username = $_POST['username'];
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
+    $sql = "INSERT INTO db_cking.`pictures` (username, pic) 
+    VALUES ('$username','$pic')";
+    $conn->exec($sql);
+    header("location: index.php");
 }
 ?>

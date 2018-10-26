@@ -62,7 +62,7 @@
     <video autoplay="true" id="videoElement">
 	</video>
 	<div class="input-group">
-    <div id="status">here</div>
+    <div id="status"></div>
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
 	<button onclick="savePic()" class="btn">Save</button> 
 <script>

@@ -62,10 +62,9 @@
     <video autoplay="true" id="videoElement">
 	</video>
 	<div class="input-group">
+    <div id="status">here</div>
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
-	<button onclick="savePic()" class="btn">Save</button>
-
-
+	<button onclick="savePic()" class="btn">Save</button> 
 <script>
 var video = document.querySelector("#videoElement"), canvas;
 var img = document.querySelector('img') || document.createElement('img');
@@ -93,19 +92,25 @@ function takeSnapshot(){
       img.src = canvas.toDataURL('image/png');
       
       document.body.appendChild(img);
-      console.log (encodeURIComponent(JSON.stringify(img.src)));
       }
 
 function savePic(){
-	// var download = document.getElementById("videoElement");
-    // var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    // download.setAttribute("href", image);
-    
-
+    var hr = new XMLHttpRequest();
+    var url = "server.php";
+    var usr = '<?php echo $_SESSION["username"]; ?>';
+    var pic = (encodeURIComponent(JSON.stringify(img.src)));
+    var vars = "username="+usr+"&pic="+pic+"&submit_pic=true";
+    hr.open("POST", url, true);
+    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    hr.onreadystatechange = function() {
+    if(hr.readyState == 4 && hr.status == 200) {
+        var return_data = hr.responseText;
+        document.getElementById("status").innerHTML = return_data;
     }
-});
+}
+hr.send(vars);
+document.getElementById("status").innerHTML = "processing...";
 }
 </script>
-
 </body>
 </html>

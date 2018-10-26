@@ -46,6 +46,16 @@
         // use exec() because no results are returned
         $conn->exec($sql);
         echo "Table users created successfully";
+
+        $sql2 = "CREATE TABLE pictures (
+            id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+            username VARCHAR(255) NOT NULL,
+            pic LONGTEXT NOT NULL,
+            sub_datetime TIMESTAMP
+            )";
+        $conn->exec($sql2);
+        echo "Table pictures created successfully";
+        
         }
     catch(PDOException $e){
         echo $sql . "<br>" . $e->getMessage();

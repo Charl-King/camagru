@@ -79,8 +79,7 @@ var img = document.querySelector('img') || document.createElement('img');
 
 function takeSnapshot(){
       var context;
-      var width = video.offsetWidth
-        , height = video.offsetHeight;
+      var width = video.offsetWidth, height = video.offsetHeight;
 
       canvas = canvas || document.createElement('canvas');
       canvas.width = width;

@@ -22,7 +22,7 @@
     // Create database
     $sql = "CREATE DATABASE $dbname";
     if ($conn->query($sql) === TRUE) {
-        echo "Database created successfully";
+        echo "Database created successfully<BR/>";
     } else {
         echo "Error creating database: " . $conn->error;
     }
@@ -38,14 +38,14 @@
         username VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         verified tinyint(1) NOT NULL DEFAULT '0',
-        token varchar(255) DEFAULT NULL,
+        token VARCHAR(255) DEFAULT NULL,
         password VARCHAR(255),
         reg_date TIMESTAMP
         )";
     
         // use exec() because no results are returned
         $conn->exec($sql);
-        echo "Table users created successfully";
+        echo "Table users created successfully<BR/>";
 
         $sql2 = "CREATE TABLE pictures (
             id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
@@ -54,8 +54,16 @@
             sub_datetime TIMESTAMP
             )";
         $conn->exec($sql2);
-        echo "Table pictures created successfully";
+        echo "Table pictures created successfully<BR/>";
         
+        $sql3 = "CREATE TABLE comments (
+            pic_id INT(11) UNSIGNED NOT NULL,
+            comment VARCHAR(500) NOT NULL,
+            sub_datetime TIMESTAMP
+            )";
+        $conn->exec($sql2);
+        echo "Table pictures created successfully<BR/>";
+
         }
     catch(PDOException $e){
         echo $sql . "<br>" . $e->getMessage();

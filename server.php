@@ -136,7 +136,7 @@ if (isset($_POST['pwrst'])){
     $msg = wordwrap($msg,70);
     $email = $_POST['email'];
     mail("$email","Verification email",$msg);
-    header("location: password_reset_notification.php");
+    header("location:password_reset_notification.php");
 }
 
 //reset password when link is clicked

@@ -16,7 +16,7 @@ $stmt = $conn->prepare("SELECT pic FROM db_cking.pictures");
 $stmt->execute();
 $i = 0;
 while ($row = $stmt->fetch()) {
-    echo("<img src =".$row[pic]."/>");
+    echo("<img src =".$row[pic]."style='width:20%'/>");
     $i++;
 }
 

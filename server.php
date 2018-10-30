@@ -136,11 +136,15 @@ if (isset($_POST['pwrst'])){
     $msg = wordwrap($msg,70);
     $email = $_POST['email'];
     mail("$email","Verification email",$msg);
+    header("location: password_reset_notification.php");
 }
 
 //reset password when link is clicked
 if (isset($_POST['changepw'])){
-    $token = $_SESSION['token'];
+    if(isset($_SESSION['token']))
+        $token = $_SESSION['token'];
+    else
+        {array_push($errors, "Invalid token");}
     $password_1 = $_POST['password_1'];
     $password_2 = $_POST['password_2'];
     if (empty($password_1)){array_push($errors, "Password is required");}
@@ -162,6 +166,5 @@ if(isset($_POST['submit_pic'])){
     $sql = "INSERT INTO db_cking.`pictures` (username, pic) 
     VALUES ('$username','$pic')";
     $conn->exec($sql);
-    header("location: index.php");
 }
 ?>

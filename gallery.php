@@ -1,3 +1,29 @@
+<html>
+<head>
+<style>
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 20%;
+}
+
+div.gallery:hover {
+    border: 1px solid #779;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 8px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
 <?php
 $servername = "localhost";
 $ad_username = "root";
@@ -6,18 +32,20 @@ $dbname = "db_cking";
 $username = "";
 $email = "";
 
-
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
-$stmt = $conn->prepare("SELECT pic FROM db_cking.pictures");
-
-//$results = $stmt->fetchAll();
-//echo ("<img src =".$results[0][pic]."/>");
-
+$stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures");
 $stmt->execute();
 $i = 0;
+
 while ($row = $stmt->fetch()) {
-    echo("<img src =".$row[pic]."style='width:20%'/>");
+    echo('<div class="gallery">');
+    echo('<a target="_blank">');
+    echo("<img src =".$row[pic]."/>");
+    echo('</a>');
+    echo('<div class="desc">'.$row[username].'</div>');
+    echo('</div>');
     $i++;
 }
-
 ?>
+</body>
+</html>

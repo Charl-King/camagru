@@ -24,7 +24,7 @@
     if ($conn->query($sql) === TRUE) {
         echo "Database created successfully<BR/>";
     } else {
-        echo "Error creating database: " . $conn->error;
+        echo "Error creating database: " . $conn->error."<BR/>";
     }
 
     try {
@@ -48,7 +48,7 @@
         echo "Table users created successfully<BR/>";
 
         $sql2 = "CREATE TABLE pictures (
-            id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+            pic_id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
             username VARCHAR(255) NOT NULL,
             pic LONGTEXT NOT NULL,
             sub_datetime TIMESTAMP
@@ -61,8 +61,8 @@
             comment VARCHAR(500) NOT NULL,
             sub_datetime TIMESTAMP
             )";
-        $conn->exec($sql2);
-        echo "Table pictures created successfully<BR/>";
+        $conn->exec($sql3);
+        echo "Table comments created successfully<BR/>";
 
         }
     catch(PDOException $e){

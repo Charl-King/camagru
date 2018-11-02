@@ -23,6 +23,12 @@
     height: 375px;
     border: 10px #333 solid;
 }
+#container2 {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
 #videoElement {
     width: 500px;
     height: 375px;
@@ -61,10 +67,14 @@
 <div id="container">
     <video autoplay="true" id="videoElement">
 	</video>
-	<div class="input-group">
+    <div class="input-group">
     <div id="status"></div>
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
 	<button onclick="savePic()" class="btn">Save</button> 
+</div>
+</div>
+<BR/><BR/>
+<div id="container2"></div>
 <script>
 var video = document.querySelector("#videoElement"), canvas;
 var img = document.querySelector('img') || document.createElement('img');
@@ -73,7 +83,7 @@ var img = document.querySelector('img') || document.createElement('img');
 		navigator.mediaDevices.getUserMedia({video: true})
 	.then(function(stream) {
 		video.srcObject = stream;
-		return video.play(); // returns a Promise
+		return video.play(); // returns a false Promise
 	})
 	}
 
@@ -89,8 +99,8 @@ function takeSnapshot(){
       context.drawImage(video, 0, 0, width, height);
 
       img.src = canvas.toDataURL('image/png');
-      
-      document.body.appendChild(img);
+      document.getElementById("container2").innerHTML = "<img src="+img.src+">";
+      //document.body.appendChild(img);
       }
 
 function savePic(){

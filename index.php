@@ -90,6 +90,8 @@ var img = document.querySelector('img') || document.createElement('img');
 function takeSnapshot(){
       var context;
       var width = video.offsetWidth, height = video.offsetHeight;
+      var sticker = new Image();
+      sticker.src = "./img/frame1.png";
 
       canvas = canvas || document.createElement('canvas');
       canvas.width = width;
@@ -97,10 +99,10 @@ function takeSnapshot(){
 
       context = canvas.getContext('2d');
       context.drawImage(video, 0, 0, width, height);
+      context.drawImage(sticker,0,0,width, height);
 
       img.src = canvas.toDataURL('image/png');
       document.getElementById("container2").innerHTML = "<img src="+img.src+">";
-      //document.body.appendChild(img);
       }
 
 function savePic(){

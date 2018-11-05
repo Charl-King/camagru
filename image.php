@@ -17,25 +17,25 @@
 	<h2>Image view</h2>
 </div>
 <div class="content">
-  	<!-- notification message -->
-  	<?php if (isset($_SESSION['success'])) : ?>
-      <div class="error success" >
-      	<h3>
-          <?php 
-          	echo $_SESSION['success']; 
-          	unset($_SESSION['success']);
-          ?>
-      	</h3>
-      </div>
-  	<?php endif ?>
-
-    <!-- logged in user information -->
-    <?php  if (isset($_SESSION['username'])) : ?>
-    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
-    	<p> <a href="index.php?logout='1'" style="color: red;">Logout</a> </p>
-    <?php endif ?>
 </div>
 <BR/><BR/>
-<div id="container"></div>
+<?php
+$servername = "localhost";
+$ad_username = "root";
+$ad_password = "test";
+$dbname = "db_cking";
+$username = "";
+$email = "";
+
+$conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
+$stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures WHERE pic_id=$_GET[pic_id]");
+$stmt->execute();
+
+while ($row = $stmt->fetch()) {
+    echo('<div id="container">');
+    echo("<img src =".$row[pic]."/>");
+    echo('</div>');
+}
+?>
 </body>
 <html>

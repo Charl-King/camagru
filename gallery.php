@@ -32,10 +32,9 @@ $dbname = "db_cking";
 $username = "";
 $email = "";
 
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password, $opt);
+$conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
 $stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures");
 $stmt->execute();
-$i = 0;
 
 while ($row = $stmt->fetch()) {
     echo('<div class="gallery">');
@@ -44,7 +43,6 @@ while ($row = $stmt->fetch()) {
     echo('</a>');
     echo('<div class="desc">'.$row[username].'</div>');
     echo('</div>');
-    $i++;
 }
 ?>
 </body>

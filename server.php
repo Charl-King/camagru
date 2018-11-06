@@ -135,6 +135,16 @@ try {
         VALUES ('$username','$pic')";
         $conn->exec($sql);
     }
+
+    //adding comment
+    if (isset($_POST['comment'])){
+        $comment = $_POST['comment'];
+        $username = $_SESSION['username'];
+        $pic_id = $_POST['pic_id'];
+        $sql = "INSERT INTO db_cking.comments (pic_id, username, comment) 
+                VALUES ('$pic_id','$username', '$comment')";
+        $conn->exec($sql);
+    }
 }
 catch(PDOException $e){
     echo $sql . "<br>" . $e->getMessage();

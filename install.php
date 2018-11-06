@@ -59,6 +59,7 @@
         
         $sql3 = "CREATE TABLE comments (
             pic_id INT(11) UNSIGNED NOT NULL,
+            username VARCHAR(255) NOT NULL,
             comment VARCHAR(500) NOT NULL,
             sub_datetime TIMESTAMP
             )";

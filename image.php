@@ -19,23 +19,26 @@
 <div class="content">
 </div>
 <BR/><BR/>
-<?php
-$servername = "localhost";
-$ad_username = "root";
-$ad_password = "test";
-$dbname = "db_cking";
-$username = "";
-$email = "";
-
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
-$stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures WHERE pic_id=$_GET[pic_id]");
-$stmt->execute();
-
-while ($row = $stmt->fetch()) {
-    echo('<div id="container">');
+<div id="container">
+    <?php
+    require('connect.php');
+    $stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures WHERE pic_id=$_GET[pic_id]");
+    $stmt->execute();
+    $row = $stmt->fetch();
     echo("<img src =".$row[pic]."/>");
-    echo('</div>');
-}
-?>
+    ?>
+</div>
+<div class="input-group" style="text-align:center;">
+    <div style="width:500px; display:inline-block;">
+        <label>Comment</label>
+        <input type="text" name="comment">
+    </div>
+    <div class="input-group">
+            <button type="submit" name="post" class="btn">Post</button>
+        </div>
+</div>
+<div id="container">
+test123
+</div>
 </body>
 <html>

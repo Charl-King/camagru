@@ -33,12 +33,13 @@ $username = "";
 $email = "";
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $ad_username, $ad_password);
-$stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures");
+$stmt = $conn->prepare("SELECT username,pic,pic_id FROM db_cking.pictures");
 $stmt->execute();
 
 while ($row = $stmt->fetch()) {
     echo('<div class="gallery">');
-    echo('<a target="_blank">');
+    echo('<a href="image.php?pic_id=');
+    echo($row[pic_id].'">');
     echo("<img src =".$row[pic]."/>");
     echo('</a>');
     echo('<div class="desc">'.$row[username].'</div>');

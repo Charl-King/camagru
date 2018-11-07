@@ -4,7 +4,7 @@ $_SESSION['token'] = $_GET['token'];
 ?>
 <?php include('header.php'); ?>
     <head>
-        <title>Password recovery</title>
+        <title>Password reset</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 <body>

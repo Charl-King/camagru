@@ -1,4 +1,4 @@
-<html>
+<?php include('header.php'); ?>
 <head>
 <style>
 div.gallery {
@@ -40,4 +40,4 @@ while ($row = $stmt->fetch()) {
 }
 ?>
 </body>
-</html>
+<?php include('footer.php'); ?>

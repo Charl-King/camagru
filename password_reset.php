@@ -2,9 +2,7 @@
 include('server.php');
 $_SESSION['token'] = $_GET['token'];
 ?>
-
-<!DOCTYPE html>
-<html>
+<?php include('header.php'); ?>
     <head>
         <title>Password recovery</title>
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -29,4 +27,4 @@ $_SESSION['token'] = $_GET['token'];
         </div>
     </form>
 </body>
-</html>
+<?php include('footer.php'); ?>

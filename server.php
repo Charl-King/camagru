@@ -145,6 +145,13 @@ try {
                 VALUES ('$pic_id','$username', '$comment')";
         $conn->exec($sql);
     }
+
+    //adding a like
+    if(isset($_POST['like_pic'])){
+        $pic_id = $_POST['pic_id'];
+        $sql = "UPDATE db_cking.pictures SET likes = likes + 1 WHERE pic_id = $pic_id";
+        $conn->exec($sql);
+    }
 }
 catch(PDOException $e){
     echo $sql . "<br>" . $e->getMessage();

@@ -1,3 +1,4 @@
+<?php include('header.php'); ?>
 <?php 
   session_start(); 
 
@@ -14,8 +15,6 @@
 
   }
 ?>
-<!DOCTYPE html>
-<html>
 <style>
 #container {
     margin: 0px auto;
@@ -38,7 +37,8 @@
 
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="scripts.js"></script>
 </head>
 <body>
 <div class="header">
@@ -66,18 +66,18 @@
 <BR/><BR/>
 <div id="container">
     <video autoplay="true" id="videoElement">
-	</video>
-    <div class="input-group">
+    </video>
+    <div class="input-group" style="text-align:center;">
     <div id="status"></div>
+    <div style="display:inline-block;">
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
-	<button onclick="savePic()" class="btn">Save</button> 
+    <button onclick="savePic('<?php echo $_SESSION['username']; ?>')" class="btn">Save</button> 
 </div>
 </div>
-<BR/><BR/>
-<div id="container2"></div>
+</div>
 <script>
-var video = document.querySelector("#videoElement"), canvas;
-var img = document.querySelector('img') || document.createElement('img');
+    var video = document.querySelector("#videoElement"), canvas;
+    var img = document.querySelector('img') || document.createElement('img');
 	
 	if (navigator.mediaDevices.getUserMedia) {       
 		navigator.mediaDevices.getUserMedia({video: true})
@@ -86,48 +86,18 @@ var img = document.querySelector('img') || document.createElement('img');
 		return video.play(); // returns a false Promise
 	})
 	}
-
-function takeSnapshot(){
-      var context;
-      var width = video.offsetWidth, height = video.offsetHeight;
-
-      canvas = canvas || document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-
-      context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, width, height);
-      addSticker("./img/circle.png");
-      img.src = canvas.toDataURL('image/png');
-      document.getElementById("container2").innerHTML = "<img src="+img.src+">";
-      }
-
-function savePic(){
-    var hr = new XMLHttpRequest();
-    var url = "server.php";
-    var usr = '<?php echo $_SESSION["username"]; ?>';
-    var pic = (encodeURIComponent(JSON.stringify(img.src)));
-    var vars = "username="+usr+"&pic="+pic+"&submit_pic=true";
-    hr.open("POST", url, true);
-    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    hr.onreadystatechange = function() {
-    if(hr.readyState == 4 && hr.status == 200) {
-        var return_data = hr.responseText;
-        document.getElementById("status").innerHTML = return_data;
-    }
-}
-hr.send(vars);
-document.getElementById("status").innerHTML = "processing...";
-}
-
-function addSticker(path){
-    var sticker = new Image();
-    var width = video.offsetWidth, height = video.offsetHeight;
-    sticker.src = path;
-    context = canvas.getContext('2d');
-
-    context.drawImage(sticker,0,0,width, height);
-}
 </script>
+<BR>
+<BR>
+<BR>
+<div id="container2"></div>
+<div style="text-align:center;">
+<div style="display:inline-block;">
+    <button onclick="addSticker('./img/circle.png')" class="btn">Circle</button>
+    <button onclick="addSticker('./img/frame1.png')" class="btn">Frame</button>
+    <button onclick="addSticker('./img/imagination.png')" class="btn">Imagination</button>
+
+</div>
+</div>
 </body>
-</html>
+<?php include ('footer.php')?>

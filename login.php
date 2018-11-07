@@ -1,9 +1,7 @@
+<?php include('header.php'); ?>
 <?php 
 include('server.php');
 ?>
-
-<!DOCTYPE html>
-<html>
     <head>
         <title>Log in</title>
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -41,4 +39,4 @@ include('server.php');
         </p>
     </form>
 </body>
-</html>
+<?php include('footer.php'); ?>

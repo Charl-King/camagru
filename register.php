@@ -1,7 +1,6 @@
 <?php include ('server.php'); ?>
 
-<!DOCTYPE html>
-<html>
+<?php include('header.php'); ?>
     <head>
         <title>Register</title>
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -36,4 +35,4 @@
         </p>
     </form>
 </body>
-</html>
+<?php include('footer.php'); ?>

@@ -51,7 +51,7 @@
             pic_id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
             username VARCHAR(255) NOT NULL,
             pic LONGTEXT NOT NULL,
-            likes INT(100) UNSIGNED,
+            likes INT(100) UNSIGNED NOT NULL DEFAULT 0,
             sub_datetime TIMESTAMP
             )";
         $conn->exec($sql2);

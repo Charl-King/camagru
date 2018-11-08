@@ -130,8 +130,7 @@ try {
     if(isset($_POST['submit_pic'])){
         $pic = $_POST['pic'];
         $username = $_POST['username'];
-        $sql = "INSERT INTO db_cking.`pictures` (username, pic) 
-        VALUES ('$username','$pic')";
+        $sql = "INSERT INTO db_cking.`pictures` (username, pic) VALUES ('$username','$pic')";
         $conn->exec($sql);
     }
 
@@ -143,6 +142,14 @@ try {
         $sql = "INSERT INTO db_cking.comments (pic_id, username, comment) 
                 VALUES ('$pic_id','$username', '$comment')";
         $conn->exec($sql);
+        $sql2="SELECT email FROM users INNER JOIN `pictures` ON users.username = pictures.username WHERE pic_id = $pic_id AND verified = 2;";
+        $stmt = $conn->prepare($sql2);
+        $stmt->execute();
+        $results = $stmt->fetch();
+        $email = ($results['email']);
+        if ($results){
+        $msg = "Someone commented on your picture. Follow this link: http://localhost:8080/camagru/image.php?pic_id=".$pic_id;
+        mail($email,"Comment on your photo",$msg);}
         unset($_POST['comment']);
     }
 
@@ -168,11 +175,19 @@ try {
 
     //change username
     if (isset($_POST['change_username'])){
+        //validate new username
+        $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr OR email = :eml");
+        $stmt->execute(["usr"=>$username, "eml"=>$email]);
+        $results = $stmt->fetchAll();
+        if (sizeof($results) >= 1){array_push($errors, "Username/Email already in use");}
+
         $new = $_POST['new_username'];
         $old = $_SESSION['username'];
         $stmt = $conn->prepare("UPDATE db_cking.users SET username = :new WHERE username = :old");
         $stmt->execute(["new"=>$new,"old"=>$old]);
         $_SESSION['username'] = $new;
+        $stmt = $conn->prepare("UPDATE db_cking.pictures SET username = :new WHERE username = :old");
+        $stmt->execute(["new"=>$new,"old"=>$old]);
     }
 
     //change email
@@ -181,6 +196,19 @@ try {
         $old = $_SESSION['username'];
         $stmt = $conn->prepare("UPDATE db_cking.users SET email = :new WHERE username = :old");
         $stmt->execute(["new"=>$new,"old"=>$old]);
+    }
+
+    //change notification pref on
+    if (isset($_POST['noti_on'])){
+        $usr = $_SESSION['username'];
+        $stmt = $conn->prepare("UPDATE db_cking.users SET verified = 2 WHERE username = :usr");
+        $stmt->execute(["usr"=>$usr]);
+    }
+    //change notification pref off
+    if (isset($_POST['noti_off'])){
+        $usr = $_SESSION['username'];
+        $stmt = $conn->prepare("UPDATE db_cking.users SET verified = 1 WHERE username = :usr");
+        $stmt->execute(["usr"=>$usr]);
     }
 }
 catch(PDOException $e){

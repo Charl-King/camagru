@@ -1,7 +1,4 @@
 <?php include('header.php'); ?>
-<?php 
-include('server.php');
-?>
     <head>
         <title>Log in</title>
         <link rel="stylesheet" type="text/css" href="style.css">

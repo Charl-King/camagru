@@ -1,5 +1,4 @@
 <?php 
-include('server.php');
 $_SESSION['token'] = $_GET['token'];
 ?>
 <?php include('header.php'); ?>

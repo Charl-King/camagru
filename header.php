@@ -42,7 +42,7 @@ li a:hover {
 <ul>
   <li><a class="active" href="index.php">Home</a></li>
   <li><a href="settings.php">Settings</a></li>
-  <li><a href="settings.php">My Gallery</a></li>
+  <li><a href="my_gallery.php">My Gallery</a></li>
   <li><a href="gallery.php">Gallery</a></li>
   <li><a href="logout.php">Logout</a></li>
   <li class="right"><?php echo ($_SESSION['username']); ?></li>

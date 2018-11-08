@@ -1,7 +1,4 @@
 <?php include('header.php'); ?>
-<?php 
-include('server.php');
-?>
 <!DOCTYPE html>
 <style>
 #container {
@@ -28,13 +25,13 @@ include('server.php');
     $stmt = $conn->prepare("SELECT username,pic FROM db_cking.pictures WHERE pic_id=$_GET[pic_id]");
     $stmt->execute();
     $row = $stmt->fetch();
-    echo("<img src =".$row[pic]."/>");
+    echo("<img src =".$row['pic']."/>");
     ?>
     <div style="position:absolute;left:0;top:0;">
-    <button onclick="Like(<?php echo($_GET[pic_id])?>)" class="btn">Like</button>
+    <button onclick="Like(<?php echo($_GET['pic_id'])?>)" class="btn">Like</button>
     </div>
 </div>
-<form method="post" action=<?php echo "image.php?pic_id=".$_GET[pic_id]?>>
+<form method="post" action=<?php echo "image.php?pic_id=".$_GET['pic_id']?>>
 <div class="input-group" style="text-align:center;">
     <div style="width:80%; display:inline-block;">
         <label>Comment</label>
@@ -44,7 +41,7 @@ include('server.php');
         <button type="submit" name="post" class="btn">Post</button>
        
     </div>
-    <input type="hidden" id="pic_id" name="pic_id" value=<?php echo $_GET[pic_id]?>>
+    <input type="hidden" id="pic_id" name="pic_id" value=<?php echo $_GET['pic_id']?>>
 </div>
 </form>
 <div id="container" style="height:20px">
@@ -53,7 +50,7 @@ Likes:
     $stmt = $conn->prepare("SELECT likes FROM db_cking.pictures WHERE pic_id=$_GET[pic_id]");
     $stmt->execute();
     while ($row = $stmt->fetch()) {
-        echo($row[likes]);
+        echo($row['likes']);
         echo "<br>";
     }
 ?>
@@ -63,7 +60,7 @@ Likes:
     $stmt = $conn->prepare("SELECT comment FROM db_cking.comments WHERE pic_id=$_GET[pic_id] ORDER BY sub_datetime DESC LIMIT 5");
     $stmt->execute();
     while ($row = $stmt->fetch()) {
-        echo($row[comment]);
+        echo($row['comment']);
         echo "<br>";
     }
 ?>
@@ -75,7 +72,7 @@ function Like(pic_id){
     hr.open("POST", url, true);
     hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     hr.send(vars);
-    window.location = 'image.php?pic_id='+<?php echo $_GET[pic_id]?>;
+    window.location = 'image.php?pic_id='+<?php echo $_GET['pic_id']?>;
 }
 </script>
 </div>

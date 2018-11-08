@@ -23,7 +23,7 @@ $_SESSION['token'] = $_GET['token'];
             <input type="password" name="password_2">
         </div>
         <div class="input-group">
-            <button type="submit" name="changepw" class="btn">Set new password</button>
+            <button type="submit" name="changepw1" class="btn">Set new password</button>
         </div>
     </form>
 </body>

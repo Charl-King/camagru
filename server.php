@@ -36,8 +36,7 @@ try {
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are logged in";
         
-        //send verification email
-            
+        //send verification email  
             $msg = "Please follow the link below\nto verify your account\n$ver_link";
             $msg = wordwrap($msg,70);
             mail("$email","Verification email",$msg);
@@ -144,6 +143,7 @@ try {
         $sql = "INSERT INTO db_cking.comments (pic_id, username, comment) 
                 VALUES ('$pic_id','$username', '$comment')";
         $conn->exec($sql);
+        unset($_POST['comment']);
     }
 
     //adding a like
@@ -151,6 +151,36 @@ try {
         $pic_id = $_POST['pic_id'];
         $sql = "UPDATE db_cking.pictures SET likes = likes + 1 WHERE pic_id = $pic_id";
         $conn->exec($sql);
+    }
+    //change pw
+    if (isset($_POST['changepw1'])){
+        $password_1 = $_POST['password_1'];
+        $password_2 = $_POST['password_2'];
+        if (empty($password_1)){array_push($errors, "Password is required");}
+        if ($password_1 != $password_2){array_push($errors, "Passwords do not match");}
+        if(count($errors) == 0){
+            $password = hash('whirlpool',str_rot13($password_1));
+            $stmt = $conn->prepare("UPDATE db_cking.users SET password = :psw WHERE username = :usr");
+            $stmt->execute(["usr"=>$_SESSION['username'],"psw"=>$password]);
+            header('location: index.php');
+        }
+    }
+
+    //change username
+    if (isset($_POST['change_username'])){
+        $new = $_POST['new_username'];
+        $old = $_SESSION['username'];
+        $stmt = $conn->prepare("UPDATE db_cking.users SET username = :new WHERE username = :old");
+        $stmt->execute(["new"=>$new,"old"=>$old]);
+        $_SESSION['username'] = $new;
+    }
+
+    //change email
+    if (isset($_POST['change_email'])){
+        $new = $_POST['new_email'];
+        $old = $_SESSION['username'];
+        $stmt = $conn->prepare("UPDATE db_cking.users SET email = :new WHERE username = :old");
+        $stmt->execute(["new"=>$new,"old"=>$old]);
     }
 }
 catch(PDOException $e){

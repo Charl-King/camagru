@@ -1,5 +1,3 @@
-<?php include ('server.php'); ?>
-
 <?php include('header.php'); ?>
     <head>
         <title>Register</title>

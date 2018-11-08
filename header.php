@@ -1,3 +1,4 @@
+<?php include ('server.php') ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,15 @@ li a {
 li a:hover {
     background-color: #111;
 }
+
+.right{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float: right;
+}
 </style>
 </head>
 <body>
@@ -35,5 +45,6 @@ li a:hover {
   <li><a href="settings.php">My Gallery</a></li>
   <li><a href="gallery.php">Gallery</a></li>
   <li><a href="logout.php">Logout</a></li>
+  <li class="right"><?php echo ($_SESSION['username']); ?></li>
 </ul>
 </body>

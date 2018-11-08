@@ -34,8 +34,13 @@ function addSticker(path){
     var sticker = new Image();
     var width = video.offsetWidth, height = video.offsetHeight;
     sticker.src = path;
-    contxt = canvas.getContext('2d');
-    contxt.drawImage(sticker,0,0,width, height);
-    img.src = canvas.toDataURL('image/png');
-    document.getElementById("container2").innerHTML = "<img src="+img.src+">";
+    if (canvas){
+        contxt = canvas.getContext('2d');
+        contxt.drawImage(sticker,0,0,width, height);
+        img.src = canvas.toDataURL('image/png');
+        document.getElementById("container2").innerHTML = "<img src="+img.src+">";
+    }
+    else{
+        document.getElementById("container2").innerHTML = "Take a picture first."; 
+    }
 }

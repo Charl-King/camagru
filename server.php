@@ -72,7 +72,7 @@ try {
 
             if (sizeof($results) == 1){
                 //check if verified
-                $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr AND verified = 1");
+                $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE username = :usr AND verified > 0");
                 $stmt->execute(["usr"=>$username]);
                 $results = $stmt->fetchAll();
                 if(sizeof($results) == 1){
@@ -106,7 +106,7 @@ try {
         $msg = "Please follow the link below,\nto reset your account:\n$ver_link";
         $msg = wordwrap($msg,70);
         $email = $_POST['email'];
-        mail("$email","Verification email",$msg);
+        mail("$email","Password reset link for Camagru",$msg);
         header("location:password_reset_notification.php");
     }
     //reset password when link is clicked
@@ -135,7 +135,7 @@ try {
     }
 
     //adding comment
-    if (isset($_POST['comment'])){
+    if (isset($_POST['comment']) && isset($_SESSION['username'])){
         $comment = $_POST['comment'];
         $username = $_SESSION['username'];
         $pic_id = $_POST['pic_id'];

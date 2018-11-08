@@ -11,7 +11,7 @@ $_SESSION['token'] = $_GET['token'];
     <div class="header">
         <h2>Password reset</h2>
     </div>
-    <form method="post" action="login.php">
+    <form method="post" action="password_reset1.php">
     <?php include ('errors.php');?>
     </div>
         <div class="input-group">

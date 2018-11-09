@@ -70,7 +70,8 @@
     <div id="status"></div>
     <div style="display:inline-block;">
     <button onclick="takeSnapshot()" class="btn">Take pic</button>
-    <button onclick="savePic('<?php echo $_SESSION['username']; ?>')" class="btn">Save</button> 
+    <button onclick="savePic('<?php echo $_SESSION['username']; ?>')" class="btn">Save</button>
+    <input type="file" value="Upload" onchange="upload_picture(); return false;" />
 </div>
 </div>
 </div>

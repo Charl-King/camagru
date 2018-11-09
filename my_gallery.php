@@ -28,7 +28,7 @@ div.desc {
 <body>
 <?php
 require('connect.php');
-$username = $_SESSION['username'];
+if (isset($_SESSION['username'])){$username =  ($_SESSION['username']);}
 
 //set page number
 if (!isset($_GET['page'])) {

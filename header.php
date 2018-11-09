@@ -45,6 +45,6 @@ li a:hover {
   <li><a href="my_gallery.php">My Gallery</a></li>
   <li><a href="gallery.php">Gallery</a></li>
   <li><a href="logout.php">Logout</a></li>
-  <li class="right"><?php echo ($_SESSION['username']); ?></li>
+  <li class="right"><?php if (isset($_SESSION['username'])){echo ($_SESSION['username']);} ?></li>
 </ul>
 </body>

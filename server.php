@@ -181,21 +181,29 @@ try {
         $results = $stmt->fetchAll();
         if (sizeof($results) >= 1){array_push($errors, "Username/Email already in use");}
 
+        else{
         $new = $_POST['new_username'];
         $old = $_SESSION['username'];
         $stmt = $conn->prepare("UPDATE db_cking.users SET username = :new WHERE username = :old");
         $stmt->execute(["new"=>$new,"old"=>$old]);
         $_SESSION['username'] = $new;
         $stmt = $conn->prepare("UPDATE db_cking.pictures SET username = :new WHERE username = :old");
-        $stmt->execute(["new"=>$new,"old"=>$old]);
+        $stmt->execute(["new"=>$new,"old"=>$old]);}
     }
 
     //change email
     if (isset($_POST['change_email'])){
         $new = $_POST['new_email'];
+        //////////////////////////////
+        $stmt = $conn->prepare("SELECT * FROM db_cking.users WHERE email = :eml");
+        $stmt->execute(["eml"=>$new]);
+        $results = $stmt->fetchAll();
+        if (sizeof($results) >= 1){array_push($errors, "Username/Email already in use");}
+        ///////////////////////////////
+        else{
         $old = $_SESSION['username'];
         $stmt = $conn->prepare("UPDATE db_cking.users SET email = :new WHERE username = :old");
-        $stmt->execute(["new"=>$new,"old"=>$old]);
+        $stmt->execute(["new"=>$new,"old"=>$old]);}
     }
 
     //change notification pref on

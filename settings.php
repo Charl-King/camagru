@@ -1,4 +1,8 @@
-<?php include ('header.php'); ?>
+<?php include ('header.php'); 
+if (!isset($_SESSION['username'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');}
+  ?>
 <head>
 	<title>Settings</title>
     <link rel="stylesheet" type="text/css" href="style.css">
